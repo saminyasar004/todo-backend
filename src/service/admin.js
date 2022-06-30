@@ -27,6 +27,17 @@ adminService.findByProp = (key, value) => {
 };
 
 /**
+ * Update an user's acceptable data by id
+ *
+ * @param {String} id
+ * @param {Object} updateData
+ * @returns {Promise}
+ */
+adminService.updateById = (id, updateData) => {
+    return userModel.findByIdAndUpdate(id, { ...updateData }, { new: true });
+};
+
+/**
  * Find all users and admin except the given adminId
  *
  * @param {String} adminId
@@ -36,12 +47,9 @@ adminService.findUsersForAdmin = async (adminId) => {
     const users = [];
     (await userModel.find()).forEach((item) => {
         if (item._doc._id.toString() !== adminId) {
+            delete item._doc.password;
             users.push({
-                _id: item._doc._id,
-                name: item._doc.name,
-                email: item._doc.email,
-                role: item._doc.role,
-                accountStatus: item._doc.accountStatus,
+                ...item._doc,
             });
         }
     });

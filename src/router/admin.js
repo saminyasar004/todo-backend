@@ -16,5 +16,8 @@ const adminRouter = express.Router();
 // get all users
 adminRouter.get("/u/all", adminController.getUsers);
 
+// edit an user [role, accountStatus]
+adminRouter.patch("/u/:userId", adminController.editUser);
+
 // Export module
 module.exports = adminRouter;

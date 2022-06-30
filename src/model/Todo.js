@@ -9,7 +9,7 @@
 const mongoose = require("mongoose");
 
 // create schema
-const todoSchema = mongoose.Schema({
+const todoSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -31,7 +31,7 @@ const todoSchema = mongoose.Schema({
 });
 
 // create model
-const todoModel = new mongoose.model("Todo", todoSchema);
+const todoModel = mongoose.model("Todo", todoSchema);
 
 // Export model
 module.exports = todoModel;

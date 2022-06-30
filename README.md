@@ -35,7 +35,7 @@ Simple Todo app where user can login his account and get access only his todo an
     -   `/api/v1/u/register` - **POST** - Register a new user
     -   `/api/v1/u/login` - **GET** - Login a user and return a JWT token
     -   `/api/v1/u/logout` - **GET** - Expire the JWT for a logged in user
-    -   `/api/v1/u/update` - **PATCH** - Update acceptable information of a user and authenticate user by JWT token
+    -   `/api/v1/u/update` - **PATCH** - Update acceptable information [name, password] of a user and authenticate user by JWT token
 
 -   ### Todo
 

@@ -9,7 +9,7 @@
 const mongoose = require("mongoose");
 
 // create schema
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         minLength: [3, "Name is too short."],
@@ -38,7 +38,7 @@ const userSchema = mongoose.Schema({
 });
 
 // create model
-const userModel = new mongoose.model("User", userSchema);
+const userModel = mongoose.model("User", userSchema);
 
 // Export model
 module.exports = userModel;
