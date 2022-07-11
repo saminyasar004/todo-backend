@@ -12,6 +12,7 @@ require("dotenv").config("../../.env");
 
 const { error, responseSender } = require("../util/script");
 const userService = require("../service/user");
+const tokenService = require("../service/token");
 
 // Module scaffolding
 const userController = {};
@@ -91,6 +92,7 @@ userController.login = async (req, res, next) => {
      * compare the password
      * if not match return 400
      * generate a jwt token with basic info in payload
+     * save the token in the tokenDB
      * return the jwt token and 200
      */
     try {
@@ -115,21 +117,39 @@ userController.login = async (req, res, next) => {
                     throw error(400, "Invalid credential.");
                 } else {
                     const payload = {
-                        _id: user._id,
-                        name: user.name,
-                        email: user.email,
-                        role: user.role,
-                        accountStatus: user.accountStatus,
+                        _id: user._doc._id,
+                        name: user._doc.name,
+                        email: user._doc.email,
+                        role: user._doc.role,
+                        accountStatus: user._doc.accountStatus,
                     };
-                    // TODO: add an expire time to the token
                     const token = jwt.sign(payload, process.env.SECRET_KEY);
-                    responseSender(res, 200, {
-                        message: "Login successfull.",
-                        token,
-                    });
+                    try {
+                        await tokenService.issueToken(token, payload._id);
+                    } catch (err) {
+                        console.log(err.message);
+                        next(error(500, "Error occures in the server side."));
+                    } finally {
+                        responseSender(res, 200, {
+                            message: "Login successfull.",
+                            token,
+                        });
+                    }
                 }
             }
         }
+    } catch (err) {
+        next(err);
+    }
+};
+
+// update user
+userController.update = (req, res, next) => {
+    /**
+     * TODO:*
+     * name, oldPassword
+     */
+    try {
     } catch (err) {
         next(err);
     }

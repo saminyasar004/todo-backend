@@ -21,6 +21,11 @@ Simple Todo app where user can login his account and get access only his todo an
     -   `todoStatus` - [incomplete, inProgress, completed]
     -   `authorId`
 
+-   ### Token
+    -   `_id`
+    -   `token`
+    -   `authorId`
+
 ## **API Router Endpoints**
 
 -   ### Admin
@@ -35,7 +40,9 @@ Simple Todo app where user can login his account and get access only his todo an
     -   `/api/v1/u/register` - **POST** - Register a new user
     -   `/api/v1/u/login` - **GET** - Login a user and return a JWT token
     -   `/api/v1/u/logout` - **GET** - Expire the JWT for a logged in user
-    -   `/api/v1/u/update` - **PATCH** - Update acceptable information [name, password] of a user and authenticate user by JWT token
+    -   `/api/v1/u/update` - **PATCH** - Update only user's name JWT require
+    -   `/api/v1/u/forgetPassword` - **POST** - Get a pincode in user's mail to change password
+    -   `/api/v1/u/changePassword` - **PATCH** - [pinCode, oldPassword, newPassword] - update the user's password
 
 -   ### Todo
 
@@ -59,3 +66,7 @@ Simple Todo app where user can login his account and get access only his todo an
 
     1. If the user's accountStatus is pending then user couldn't create any todo untill the admin active this account. only can login.
     1. If the user's accountStatus is rejected then user couldn't login. He must have to contact with the admin through email to activate his account.
+
+-   ### Token
+
+    1. Whenever a user/admin login he gets a JWT token and then the token will be saved in the token database. An user/admin can have only one valid token at a time.

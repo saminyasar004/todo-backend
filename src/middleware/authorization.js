@@ -10,6 +10,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config("../../.env");
 
 const userService = require("../service/user");
+const tokenService = require("../service/token");
 const { error, responseSender } = require("../util/script");
 
 // Module scaffolding
@@ -20,6 +21,8 @@ const authorizationMiddleware = async (req, res, next) => {
      * if not return 401
      * then find the user by id from JWT payload
      * if the user's role is user then return 401
+     * if the user's role is admin lookup the token db if the token is valid
+     * if not valid return 401
      * otherwise call next()
      */
     const token =
@@ -44,8 +47,18 @@ const authorizationMiddleware = async (req, res, next) => {
                     if (user._doc.role === "user") {
                         responseSender(res, 401, { message: "Unauthorized." });
                     } else if (user._doc.role === "admin") {
-                        req.user = user;
-                        next();
+                        // TODO: lookup in the tokenDB by user._id
+                        const tokenData = await tokenService.getTokenByAuthorId(
+                            user._doc._id
+                        );
+                        if (tokenData._doc.token !== token) {
+                            responseSender(res, 401, {
+                                message: "Unauthorized.",
+                            });
+                        } else {
+                            req.user = user;
+                            next();
+                        }
                     }
                 }
             }

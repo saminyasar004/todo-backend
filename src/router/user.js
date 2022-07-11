@@ -9,6 +9,7 @@
 const express = require("express");
 
 const userController = require("../controller/user");
+const authenticationMiddleware = require("../middleware/authentication");
 
 // Module scaffolding
 const userRouter = express.Router();
@@ -18,6 +19,9 @@ userRouter.post("/register", userController.register);
 
 // login user
 userRouter.get("/login", userController.login);
+
+// update user
+// userRouter.patch("/:userId", authenticationMiddleware, userController);
 
 // Export module
 module.exports = userRouter;

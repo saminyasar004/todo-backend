@@ -34,7 +34,7 @@ userService.findByProp = (key, value) => {
  */
 userService.register = async ({ name, email, password }) => {
     let user;
-    const userList = (await userModel.find()).length;
+    const userList = (await userModel.find({ role: "admin" })).length;
     if (userList === 0) {
         // * System's first user will be an admin
         user = new userModel({
