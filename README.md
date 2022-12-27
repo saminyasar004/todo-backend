@@ -81,4 +81,4 @@ Simple Todo app where user can login his account and get access only his todo an
     1. Whenever a user/admin login he gets a JWT token and then the token will be saved in the token database. An user/admin can have only one valid token at a time.
     
 
-#### Happy Coding 🚀
+#### Happy Coding. 🚀
